@@ -1,0 +1,67 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:VPSManager.ViewModels"
+        xmlns:tabs="using:VPSManager.Views.Tabs"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="380" d:DesignHeight="550"
+        Width="380" Height="550"
+        MinWidth="380" MinHeight="550"
+        x:Class="VPSManager.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/app-logo.ico"
+        Title="VPS Manager [cloudvpsviet.com]"
+        WindowStartupLocation="CenterScreen"
+        Background="#F2F3F5"
+        x:CompileBindings="True">
+
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+
+  <!-- CẤU TRÚC GIAO DIỆN CHÍNH -->
+  <Grid>
+    
+    <!-- KHU VỰC TAB CONTROL CHÍNH CHIẾM TOÀN BỘ DIỆN TÍCH -->
+    <TabControl Margin="4,6,4,4" Padding="0" Background="Transparent">
+      
+      <!-- TAB 1: CLOUD VPS -->
+      <TabItem Header="Cloud VPS" FontSize="12" FontWeight="SemiBold" Height="34">
+        <tabs:VpsTabView DataContext="{Binding VpsTab}"/>
+      </TabItem>
+
+      <!-- TAB 2: DOWNLOAD TOOLS -->
+      <TabItem Header="Download Tools" FontSize="12" FontWeight="SemiBold" Height="34">
+        <tabs:ToolsTabView DataContext="{Binding ToolsTab}"/>
+      </TabItem>
+
+      <!-- TAB 3: HISTORY -->
+      <TabItem Header="History" FontSize="12" FontWeight="SemiBold" Height="34">
+        <tabs:LoginLogsTabView DataContext="{Binding LoginLogsTab}"/>
+      </TabItem>
+      
+    </TabControl>
+
+    <!-- LỚP PHỦ HỘP THOẠI DIALOG (DIALOG OVERLAY) CHẠY TRÊN CÙNG -->
+    <Grid Name="DialogOverlay" IsVisible="False" Background="#A0000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <Border Margin="24" MaxWidth="400" Padding="20" Background="#FFFFFF" BorderBrush="#E3E5E8" BorderThickness="1" CornerRadius="4" 
+              HorizontalAlignment="Center" VerticalAlignment="Center" BoxShadow="0 4 16 0 #20000000">
+        <StackPanel Spacing="16">
+          <TextBlock Name="DialogTitleText" Text="Xác nhận yêu cầu" FontSize="14" FontWeight="Bold" Foreground="#2E3338"/>
+          <TextBlock Name="DialogContentText" Text="Bạn có chắc chắn muốn thực hiện hành động này?" FontSize="12" Foreground="#4E5058" TextWrapping="Wrap" LineHeight="18"/>
+          
+          <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="0,8,0,0">
+            <Button Grid.Column="0" Name="CancelButton" Content="Hủy bỏ" Click="OnCancelDialogClick" FontSize="12"
+                    Background="#E3E5E8" Foreground="#2E3338" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                    VerticalContentAlignment="Center" Height="34"/>
+            <Button Grid.Column="1" Name="ConfirmButton" Content="Đồng ý" Click="OnConfirmDialogClick" FontSize="12"
+                    Background="#3B82F6" Foreground="#FFFFFF" FontWeight="SemiBold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                    VerticalContentAlignment="Center" Height="34"/>
+          </Grid>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+  </Grid>
+
+</Window>

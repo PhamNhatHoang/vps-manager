@@ -1,0 +1,96 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:VPSManager.ViewModels"
+             xmlns:models="using:VPSManager.Models"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="600"
+             x:Class="VPSManager.Views.Tabs.LoginLogsTabView"
+             x:DataType="vm:LoginLogsTabViewModel">
+
+  <Grid RowDefinitions="Auto,Auto,*" Margin="2,8,2,4" x:CompileBindings="True">
+    
+    <!-- BANNER CẢNH BÁO EVENT LOG (NẾU THIẾU QUYỀN) -->
+    <Border Grid.Row="0" Margin="0,0,0,6" Padding="8" Background="#FEF3C7" 
+            BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="4"
+            IsVisible="{Binding HasEventLogWarning}">
+      <Grid ColumnDefinitions="Auto,*">
+        <TextBlock Grid.Column="0" Text="Cảnh báo: " FontWeight="Bold" Foreground="#D97706" VerticalAlignment="Center" Margin="0,0,4,0" FontSize="10"/>
+        <TextBlock Grid.Column="1" Text="{Binding EventLogWarning}" Foreground="#D97706" 
+                   VerticalAlignment="Center" FontWeight="Medium" TextWrapping="Wrap" FontSize="10"/>
+      </Grid>
+    </Border>
+
+    <!-- HỘP EXPANDER CẤU HÌNH TELEGRAM (DÒNG 1) -->
+    <Expander Grid.Row="1" Header="Cấu Hình Telegram Alert" FontSize="12" FontWeight="SemiBold" IsExpanded="False" 
+              Background="#FFFFFF" BorderBrush="#E3E5E8" CornerRadius="4" Margin="0,0,0,6"
+              HorizontalAlignment="Stretch">
+      <StackPanel Spacing="6" Margin="8,4,8,6">
+
+
+        <!-- HƯỚNG DẪN LẤY MÃ -->
+        <Border Background="#F2F3F5" BorderBrush="#E3E5E8" BorderThickness="1" CornerRadius="4" Padding="6" Margin="0,1">
+          <StackPanel Spacing="2">
+            <TextBlock Text="Hướng dẫn nhận thông báo qua Telegram:" FontSize="10" FontWeight="Bold" Foreground="#3B82F6"/>
+            <TextBlock Text="1. Chat với Bot @cloudvpsviet_bot để kích hoạt nhận tin." FontSize="10" Foreground="#4E5058" TextWrapping="Wrap"/>
+            <TextBlock Text="2. Chat với Bot @userinfobot để lấy mã số Chat ID cá nhân của bạn." FontSize="10" Foreground="#4E5058" TextWrapping="Wrap"/>
+            <TextBlock Text="3. Điền mã số Chat ID nhận được vào ô dưới rồi nhấn Lưu Cấu Hình." FontSize="10" Foreground="#4E5058" TextWrapping="Wrap"/>
+          </StackPanel>
+        </Border>
+
+        <!-- NHẬP CHAT ID & ĐIỀU KHIỂN -->
+        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="6" Margin="0,2,0,0">
+          <TextBox Text="{Binding TelegramChatId}" Height="28" FontSize="11" VerticalContentAlignment="Center"/>
+          <Button Grid.Column="1" Content="Lưu Cấu Hình" Command="{Binding SaveConfigCommand}" 
+                  Background="#2563EB" Foreground="#FFFFFF" FontWeight="SemiBold" FontSize="11" Padding="8,0"
+                  VerticalAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+          <Button Grid.Column="2" Content="Gửi Test" Command="{Binding TestTelegramCommand}" 
+                  Background="#EBF5FF" Foreground="#2563EB" BorderBrush="#BFDBFE" BorderThickness="1" FontSize="11" Padding="8,0"
+                  VerticalAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+        </Grid>
+      </StackPanel>
+    </Expander>
+
+    <!-- KHU VỰC BẢNG LOGS ĐĂNG NHẬP (DÒNG 2 CHẾM HẾT PHẦN CÒN LẠI) -->
+    <Border Grid.Row="2" Padding="6,8,6,8" 
+            Background="#FFFFFF" BorderBrush="#E3E5E8" BorderThickness="1" CornerRadius="4"
+            BoxShadow="0 2 8 0 #20000000">
+      <Grid RowDefinitions="Auto,*,Auto">
+        <!-- TIÊU ĐỀ & NÚT LÀM MỚI -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,6">
+          <TextBlock Grid.Column="0" Text="Lịch Sử Đăng Nhập RDP" FontSize="12" FontWeight="SemiBold" Foreground="#3B82F6" VerticalAlignment="Center"/>
+          <Button Grid.Column="1" Content="Làm Mới" Command="{Binding RefreshLogsCommand}" 
+                  Background="#EBF5FF" Foreground="#2563EB" BorderBrush="#BFDBFE" BorderThickness="1" Height="28" Padding="8,0" FontSize="11" VerticalContentAlignment="Center"/>
+        </Grid>
+        
+        <!-- BẢNG DỮ LIỆU ĐĂNG NHẬP -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Logs}" 
+                  AutoGenerateColumns="False" IsReadOnly="True" 
+                  CanUserSortColumns="False"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="#E3E5E8"
+                  Background="#FFFFFF" RowBackground="#FFFFFF"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="3">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Time" Binding="{Binding TimeCreated, StringFormat={}{0:MM-dd HH:mm}}" Width="85" FontSize="11"/>
+            <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="100" FontSize="11"/>
+            <DataGridTextColumn Header="IP" Binding="{Binding IpAddress}" Width="*" FontSize="11"/>
+            <DataGridTemplateColumn Header="Status" Width="80">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate DataType="models:LoginLogItem">
+                  <TextBlock Text="{Binding Action}" 
+                             Foreground="{Binding StatusColor}" 
+                             FontWeight="Medium" Margin="6,0" VerticalAlignment="Center" FontSize="11" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+          </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- CHÚ THÍCH -->
+        <TextBlock Grid.Row="2" Text="* Hiển thị 200 bản ghi đăng nhập RDP gần nhất." 
+                   FontSize="10" Foreground="#5C5E66" Margin="0,4,0,0"/>
+      </Grid>
+    </Border>
+
+  </Grid>
+</UserControl>

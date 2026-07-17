@@ -1,0 +1,18 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="VPSManager.App"
+             RequestedThemeVariant="Light">
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        
+        <!-- Thiết lập Font chữ Segoe UI quốc dân để hiển thị cực nét qua RDP Windows -->
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI, SF Pro Display, Inter, Roboto, Arial, sans-serif" />
+        </Style>
+        <Style Selector="TemplatedControl">
+            <Setter Property="FontFamily" Value="Segoe UI, SF Pro Display, Inter, Roboto, Arial, sans-serif" />
+        </Style>
+    </Application.Styles>
+</Application>

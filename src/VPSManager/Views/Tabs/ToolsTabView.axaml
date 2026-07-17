@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:VPSManager.ViewModels"
+             xmlns:models="using:VPSManager.Models"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="600"
+             x:Class="VPSManager.Views.Tabs.ToolsTabView"
+             x:DataType="vm:ToolsTabViewModel">
+
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" x:CompileBindings="True">
+    <StackPanel Spacing="10" Margin="2,8,2,4">
+      
+
+
+      <!-- TRẠNG THÁI ĐANG TẢI -->
+      <TextBlock Text="Đang tải danh sách công cụ..." 
+                 IsVisible="{Binding IsLoading}" 
+                 HorizontalAlignment="Center" VerticalAlignment="Center" 
+                 Margin="0,40" Foreground="#3B82F6" FontWeight="SemiBold" FontSize="12"/>
+
+      <!-- TRẠNG THÁI LỖI MẠNG -->
+      <Border IsVisible="{Binding HasError}" Background="#FEE2E2" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="4" Padding="16" Margin="0,10">
+        <StackPanel Spacing="8" HorizontalAlignment="Center">
+          <TextBlock Text="⚠️ Lỗi kết nối" FontWeight="Bold" Foreground="#DC2626" FontSize="12" HorizontalAlignment="Center"/>
+          <TextBlock Text="{Binding ErrorMessage}" Foreground="#DC2626" FontSize="11" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" LineHeight="15"/>
+        </StackPanel>
+      </Border>
+ 
+      <!-- DANH SÁCH TOOLS CHIA 2 CỘT TỐI GIẢN -->
+      <ItemsControl ItemsSource="{Binding Tools}" IsVisible="{Binding IsListVisible}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="models:ToolDownloadItem">
+            <StackPanel>
+              <Grid ColumnDefinitions="125,*" Margin="0,4,0,4" VerticalAlignment="Center">
+                
+                <!-- CỘT TRÁI: NÚT TẢI TOOL -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                  <!-- Click nút này tự động tải -->
+                  <Button Content="{Binding ButtonText}" 
+                           Command="{Binding $parent[UserControl].((vm:ToolsTabViewModel)DataContext).DownloadToolCommand}" 
+                           CommandParameter="{Binding}"
+                           IsEnabled="{Binding !IsDownloading}"
+                           Background="#EBF5FF" Foreground="#2563EB" BorderBrush="#BFDBFE" BorderThickness="1"
+                           FontWeight="SemiBold" FontSize="10"
+                           HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+                </StackPanel>
+ 
+                <!-- CỘT PHẢI: MÔ TẢ TOOL -->
+                <TextBlock Grid.Column="1" Text="{Binding Description}" FontSize="11" Foreground="#4E5058" 
+                           TextWrapping="Wrap" Margin="12,0,0,0" VerticalAlignment="Center" LineHeight="14"/>
+                
+              </Grid>
+              <Separator Height="1" Background="#E3E5E8" Margin="0,1"/>
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+    </StackPanel>
+  </ScrollViewer>
+
+</UserControl>

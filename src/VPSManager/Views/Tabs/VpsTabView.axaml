@@ -1,0 +1,150 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:VPSManager.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="600"
+             x:Class="VPSManager.Views.Tabs.VpsTabView"
+             x:DataType="vm:VpsTabViewModel">
+
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <StackPanel Spacing="6" Margin="2,4,2,4">
+      
+      <!-- PHẦN 1: THÔNG TIN VPS -->
+      <Border Padding="8,6,8,6" Background="#FFFFFF" BorderBrush="#E3E5E8" BorderThickness="1" CornerRadius="4">
+        <StackPanel Spacing="6">
+          <TextBlock Text="Thông Tin" FontSize="12" FontWeight="SemiBold" Foreground="#3B82F6"/>
+          <Separator Height="1" Background="#E3E5E8"/>
+          <Grid ColumnDefinitions="1.2*,*,*" RowDefinitions="Auto,Auto" RowSpacing="4" ColumnSpacing="6">
+          <!-- HÀNG 1: Cấu hình gốc -->
+          <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <TextBlock Text="Port RDP:" FontSize="11" Foreground="#5C5E66"/>
+            <TextBlock Text="{Binding RdpPort}" FontSize="11" FontWeight="Bold" Foreground="#23A55A"/>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <TextBlock Text="CPU:" FontSize="11" Foreground="#5C5E66"/>
+            <TextBlock Text="{Binding CpuCores, StringFormat={}{0} Cores}" FontSize="11" FontWeight="SemiBold" Foreground="#2E3338"/>
+          </StackPanel>
+          <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <TextBlock Text="RAM:" FontSize="11" Foreground="#5C5E66"/>
+            <TextBlock Text="{Binding TotalRam}" FontSize="11" FontWeight="SemiBold" Foreground="#2E3338"/>
+          </StackPanel>
+
+          <!-- HÀNG 2: Mức độ sử dụng -->
+          <!-- Cột 0 để trống -->
+          <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <TextBlock Text="CPU:" FontSize="11" Foreground="#5C5E66"/>
+            <TextBlock Text="{Binding CpuUsage, StringFormat={}{0}%}" FontSize="11" FontWeight="Bold" Foreground="#3B82F6"/>
+          </StackPanel>
+          <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <TextBlock Text="RAM:" FontSize="11" Foreground="#5C5E66"/>
+            <TextBlock Text="{Binding RamUsagePercentage, StringFormat={}{0}%}" FontSize="11" FontWeight="Bold" Foreground="#3B82F6"/>
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </Border>
+
+      <!-- PHẦN 2: CLEAR RAM -->
+      <Border Padding="8,6,8,6" Background="#FFFFFF" BorderBrush="#E3E5E8" BorderThickness="1" CornerRadius="4">
+        <StackPanel Spacing="6">
+          <TextBlock Text="Clear RAM" FontSize="12" FontWeight="SemiBold" Foreground="#3B82F6"/>
+          <Separator Height="1" Background="#E3E5E8"/>
+          <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="6" VerticalAlignment="Center">
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+              <TextBlock Text="{Binding ClearRamStatus}" FontSize="11" Foreground="#5C5E66" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding ClearRamIntervals}" SelectedItem="{Binding SelectedIntervalItem}" 
+                      Width="85" Height="28" FontSize="11" VerticalAlignment="Center" VerticalContentAlignment="Center">
+              <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:RamIntervalItem">
+                  <TextBlock Text="{Binding Display}" FontSize="11" VerticalAlignment="Center"/>
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="2" Content="Dọn ngay" Command="{Binding ClearRamNowCommand}" 
+                    Background="#EBF5FF" Foreground="#2563EB" BorderBrush="#BFDBFE" BorderThickness="1"
+                    FontSize="11" Height="28" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="8,0"/>
+          </Grid>
+      </StackPanel>
+    </Border>
+
+      <!-- PHẦN 3: THAY ĐỔI CẤU HÌNH HỆ THỐNG GOM LẠI 1 GROUPBOX -->
+      <Border Padding="8,6,8,6" Background="#FFFFFF" BorderBrush="#E3E5E8" BorderThickness="1" CornerRadius="4">
+        <StackPanel Spacing="6">
+          <TextBlock Text="Bảo Mật" FontSize="12" FontWeight="SemiBold" Foreground="#3B82F6"/>
+          <Separator Height="1" Background="#E3E5E8"/>
+          
+          <!-- Hàng 1: Đổi Port RDP -->
+          <StackPanel Spacing="2">
+            <TextBlock Text="Đổi Port RDP" FontWeight="SemiBold" FontSize="11" Foreground="#5C5E66"/>
+            <Grid ColumnDefinitions="*,85" ColumnSpacing="6">
+              <TextBox Text="{Binding NewRdpPortText}" PlaceholderText="Cổng mới (1025-65535)" Height="28" FontSize="11" VerticalContentAlignment="Center"/>
+              <Button Grid.Column="1" Content="Đổi Port" Command="{Binding ChangeRdpPortCommand}" 
+                      Background="#2563EB" Foreground="#FFFFFF" FontSize="11" Height="28" Padding="0"
+                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>
+          </StackPanel>
+
+          <Separator Height="1" Background="#E3E5E8" Margin="0,2"/>
+
+          <!-- Hàng 2: Chia 2 Cột -->
+          <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            
+            <!-- CỘT TRÁI: ĐỔI USERNAME -->
+            <StackPanel Grid.Column="0" Spacing="2">
+              <TextBlock Text="Đổi Username" FontWeight="SemiBold" FontSize="11" Foreground="#5C5E66"/>
+              
+              <!-- Chọn user đổi tên + nút làm mới nhỏ -->
+              <Grid ColumnDefinitions="*,30" ColumnSpacing="4">
+                <ComboBox ItemsSource="{Binding Usernames}" SelectedItem="{Binding SelectedRenameUsername}" 
+                          HorizontalAlignment="Stretch" Height="28" FontSize="11" VerticalContentAlignment="Center"/>
+                <Button Grid.Column="1" Content="↻" Command="{Binding RefreshUsernamesCommand}" 
+                        Background="#EBF5FF" Foreground="#2563EB" BorderBrush="#BFDBFE" BorderThickness="1" 
+                        FontSize="12" FontWeight="Bold" Height="28" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
+              </Grid>
+
+              <TextBox Text="{Binding NewUsername}" PlaceholderText="Tên mới" Height="28" FontSize="11" VerticalContentAlignment="Center" Margin="0,2,0,0"/>
+              <Button Content="Đổi Username" Command="{Binding ChangeUsernameCommand}" 
+                      Background="#2563EB" Foreground="#FFFFFF" FontSize="11" Height="28" Padding="0" Margin="0,4,0,0"
+                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <!-- CỘT PHẢI: ĐỔI PASSWORD -->
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="Đổi Password" FontWeight="SemiBold" FontSize="11" Foreground="#5C5E66"/>
+
+              <!-- Chọn user đổi mật khẩu + nút làm mới nhỏ -->
+              <Grid ColumnDefinitions="*,30" ColumnSpacing="4">
+                <ComboBox ItemsSource="{Binding Usernames}" SelectedItem="{Binding SelectedPasswordUsername}" 
+                          HorizontalAlignment="Stretch" Height="28" FontSize="11" VerticalContentAlignment="Center"/>
+                <Button Grid.Column="1" Content="↻" Command="{Binding RefreshUsernamesCommand}" 
+                        Background="#EBF5FF" Foreground="#2563EB" BorderBrush="#BFDBFE" BorderThickness="1" 
+                        FontSize="12" FontWeight="Bold" Height="28" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
+              </Grid>
+
+              <TextBox Text="{Binding NewPassword}" PlaceholderText="Mật khẩu mới" Height="28" FontSize="11" VerticalContentAlignment="Center" Margin="0,2,0,0"/>
+              <Button Content="Đổi Mật Khẩu" Command="{Binding ChangePasswordCommand}" 
+                      Background="#2563EB" Foreground="#FFFFFF" FontSize="11" Height="28" Padding="0" Margin="0,4,0,0"
+                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- PHẦN 4: HÀNH ĐỘNG NHANH -->
+      <Border Padding="8,6,8,6" Background="#FFFFFF" BorderBrush="#E3E5E8" BorderThickness="1" CornerRadius="4">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+          <Button Grid.Column="0" Content="Restart VPS" Command="{Binding RestartVpsCommand}" 
+                  Background="#DC2626" Foreground="#FFFFFF" FontWeight="SemiBold" FontSize="11"
+                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30"/>
+          <Button Grid.Column="1" Content="Xóa Data Game" Command="{Binding DeleteGameDataCommand}" 
+                  Background="#D97706" Foreground="#FFFFFF" FontWeight="SemiBold" FontSize="11"
+                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30"/>
+        </Grid>
+      </Border>
+
+    </StackPanel>
+  </ScrollViewer>
+
+</UserControl>
