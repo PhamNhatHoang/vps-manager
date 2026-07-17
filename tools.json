@@ -1,49 +1,49 @@
 [
   {
     "Name": "Treo Đệ Tử",
-    "Description": "Bộ công cụ tự động úp đệ tử sơ sinh chuyên nghiệp và tối ưu tài nguyên.",
-    "FileName": "AutoDeTuPro.rar",
-    "OutputFolderName": "AutoDeTu"
+    "Description": "Tự động treo đệ tử, Buff hồi sinh, Buff đậu thần",
+    "FileName": "AutoTreoDeTu.rar",
+    "OutputFolderName": "AutoTreoDeTu"
   },
   {
-    "Name": "Auto 4 In 1",
-    "Description": "Tích hợp 4 chức năng tự động hỗ trợ đắc lực cho nhân vật.",
+    "Name": "MVBT MHBT KILIS GLT",
+    "Description": "Tự động đánh quái MVBT > MHBT > KILIS hoặc GLT",
     "FileName": "Auto4IN1.rar",
-    "OutputFolderName": "Auto4in1"
+    "OutputFolderName": "Auto4IN1"
   },
   {
     "Name": "Set Kích Hoạt",
-    "Description": "Tự động săn và thiết lập set kích hoạt trang bị nhanh chóng.",
+    "Description": "Tự động đánh quái treo set kích hoạt, mua/bán/vứt, . . .",
     "FileName": "AutoSetKichHoat.rar",
     "OutputFolderName": "AutoSetKichHoat"
   },
   {
     "Name": "Đánh Quái",
     "Description": "Tự động đánh quái, luyện cấp và nhặt vật phẩm thông minh.",
-    "FileName": "AutoTrainQuai.rar",
+    "FileName": "AutoDanhQuai.rar",
     "OutputFolderName": "AutoDanhQuai"
   },
   {
     "Name": "Nhiệm Vụ Hằng Ngày",
-    "Description": "Tự động thực hiện toàn bộ chuỗi nhiệm vụ hàng ngày.",
+    "Description": "Tự động thực hiện những nhiệm vụ hằng ngày",
     "FileName": "AutoNhiemVuHangNgay.rar",
     "OutputFolderName": "AutoNhiemVuHangNgay"
   },
   {
     "Name": "CT Yardrat",
-    "Description": "Tự động úp Yardrat và dịch chuyển hỗ trợ săn boss.",
+    "Description": "Tự động úp Yardrat, ôm quái, . . .",
     "FileName": "AutoYardrat.rar",
     "OutputFolderName": "AutoYardrat"
   },
   {
     "Name": "Sơ Sinh",
-    "Description": "Tự động làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
+    "Description": "Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
     "FileName": "AutoSoSinh.rar",
     "OutputFolderName": "AutoSoSinh"
   },
   {
     "Name": "Nhiệm Vụ Bang",
-    "Description": "Tự động thực hiện các nhiệm vụ bang hội nhanh chóng.",
+    "Description": "Tự động thực hiện các nhiệm vụ bang hội, đến ĐHVT.",
     "FileName": "AutoNhiemVuBang.rar",
     "OutputFolderName": "AutoNhiemVuBang"
   },
@@ -54,15 +54,9 @@
     "OutputFolderName": "AutoNhiemVuBoMong"
   },
   {
-    "Name": "Săn Boss Pro",
-    "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
-    "FileName": "AutoNhiemVuBoMong.rar",
-    "OutputFolderName": "AutoSanBossPro"
-  },
-  {
-    "Name": "Capsul Kì Bí (Items)",
-    "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
-    "FileName": "AutoNhiemVuBoMong.rar",
-    "OutputFolderName": "AutoCapsulKiBi"
+    "Name": "Treo CSKB",
+    "Description": "Tự động đánh quái nhặt CSKB, giao dịch qua clone khi đủ, . . .",
+    "FileName": "AutoCSKB.rar",
+    "OutputFolderName": "AutoCSKB"
   }
 ]
