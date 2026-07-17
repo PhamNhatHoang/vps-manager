@@ -29,7 +29,23 @@ public class ToolDownloadService
         IProgress<double> progressReporter, 
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(url) || !url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            throw new ArgumentException("Đường dẫn tải xuống không được để trống.");
+        }
+
+        // Tự động phân tích và chuyển đổi URL nếu chỉ copy link Github repository
+        if (url.StartsWith("https://github.com/", StringComparison.OrdinalIgnoreCase) && 
+            !url.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) && 
+            !url.EndsWith(".rar", StringComparison.OrdinalIgnoreCase) && 
+            !url.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
+        {
+            string cleanUrl = url.TrimEnd('/');
+            string repoName = cleanUrl.Substring(cleanUrl.LastIndexOf('/') + 1);
+            url = $"{cleanUrl}/releases/latest/download/{repoName}.rar";
+        }
+
+        if (!url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
         {
             throw new ArgumentException("Đường dẫn tải xuống phải sử dụng giao thức bảo mật HTTPS.");
         }
