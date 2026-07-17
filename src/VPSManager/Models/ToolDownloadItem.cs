@@ -6,7 +6,7 @@ public partial class ToolDownloadItem : ObservableObject
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public string Url { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
     public string OutputFolderName { get; set; } = string.Empty;
 
     [ObservableProperty]

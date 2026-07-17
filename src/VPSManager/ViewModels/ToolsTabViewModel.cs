@@ -115,7 +115,7 @@ public partial class ToolsTabViewModel : ViewModelBase
         try
         {
             await ToolDownloadService.Instance.DownloadAndExtractAsync(
-                item.Url, 
+                item.FileName, 
                 item.OutputFolderName, 
                 progress, 
                 cts.Token

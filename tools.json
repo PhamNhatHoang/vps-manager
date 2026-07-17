@@ -2,67 +2,67 @@
   {
     "Name": "Treo Đệ Tử",
     "Description": "Bộ công cụ tự động úp đệ tử sơ sinh chuyên nghiệp và tối ưu tài nguyên.",
-    "Url": "AutoDeTuPro.rar",
+    "FileName": "AutoDeTuPro.rar",
     "OutputFolderName": "AutoDeTu"
   },
   {
     "Name": "Auto 4 In 1",
     "Description": "Tích hợp 4 chức năng tự động hỗ trợ đắc lực cho nhân vật.",
-    "Url": "Auto4IN1.rar",
+    "FileName": "Auto4IN1.rar",
     "OutputFolderName": "Auto4in1"
   },
   {
     "Name": "Set Kích Hoạt",
     "Description": "Tự động săn và thiết lập set kích hoạt trang bị nhanh chóng.",
-    "Url": "AutoSetKichHoat.rar",
+    "FileName": "AutoSetKichHoat.rar",
     "OutputFolderName": "AutoSetKichHoat"
   },
   {
     "Name": "Đánh Quái",
     "Description": "Tự động đánh quái, luyện cấp và nhặt vật phẩm thông minh.",
-    "Url": "AutoTrainQuai.rar",
+    "FileName": "AutoTrainQuai.rar",
     "OutputFolderName": "AutoDanhQuai"
   },
   {
     "Name": "Nhiệm Vụ Hằng Ngày",
     "Description": "Tự động thực hiện toàn bộ chuỗi nhiệm vụ hàng ngày.",
-    "Url": "AutoNhiemVuHangNgay.rar",
+    "FileName": "AutoNhiemVuHangNgay.rar",
     "OutputFolderName": "AutoNhiemVuHangNgay"
   },
   {
     "Name": "CT Yardrat",
     "Description": "Tự động úp Yardrat và dịch chuyển hỗ trợ săn boss.",
-    "Url": "AutoYardrat.rar",
+    "FileName": "AutoYardrat.rar",
     "OutputFolderName": "AutoYardrat"
   },
   {
     "Name": "Sơ Sinh",
     "Description": "Tự động làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
-    "Url": "AutoSoSinh.rar",
+    "FileName": "AutoSoSinh.rar",
     "OutputFolderName": "AutoSoSinh"
   },
   {
     "Name": "Nhiệm Vụ Bang",
     "Description": "Tự động thực hiện các nhiệm vụ bang hội nhanh chóng.",
-    "Url": "AutoNhiemVuBang.rar",
+    "FileName": "AutoNhiemVuBang.rar",
     "OutputFolderName": "AutoNhiemVuBang"
   },
   {
     "Name": "Nhiệm Vụ Bò Mộng",
     "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
-    "Url": "AutoNhiemVuBoMong.rar",
+    "FileName": "AutoNhiemVuBoMong.rar",
     "OutputFolderName": "AutoNhiemVuBoMong"
   },
   {
     "Name": "Săn Boss Pro",
     "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
-    "Url": "AutoNhiemVuBoMong.rar",
+    "FileName": "AutoNhiemVuBoMong.rar",
     "OutputFolderName": "AutoSanBossPro"
   },
   {
     "Name": "Capsul Kì Bí (Items)",
     "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
-    "Url": "AutoNhiemVuBoMong.rar",
+    "FileName": "AutoNhiemVuBoMong.rar",
     "OutputFolderName": "AutoCapsulKiBi"
   }
 ]
