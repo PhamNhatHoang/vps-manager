@@ -13,6 +13,8 @@ public class ToolDownloadService
     private static readonly Lazy<ToolDownloadService> LazyInstance = new(() => new ToolDownloadService());
     public static ToolDownloadService Instance => LazyInstance.Value;
 
+    private const string BaseReleaseUrl = "https://github.com/PhamNhatHoang/vps-manager/releases/download/tools/";
+
     private readonly HttpClient _httpClient;
 
     private ToolDownloadService()
@@ -34,12 +36,18 @@ public class ToolDownloadService
             throw new ArgumentException("Đường dẫn tải xuống không được để trống.");
         }
 
-        // Tự động phân tích và chuyển đổi URL nếu chỉ copy link Github repository
-        if (url.StartsWith("https://github.com/", StringComparison.OrdinalIgnoreCase) && 
-            !url.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) && 
-            !url.EndsWith(".rar", StringComparison.OrdinalIgnoreCase) && 
-            !url.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
+        // Nếu URL chỉ là tên file (không chứa giao thức http/https), tự động ghép với Base URL của repository
+        if (!url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && 
+            !url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
         {
+            url = $"{BaseReleaseUrl}{url}";
+        }
+        else if (url.StartsWith("https://github.com/", StringComparison.OrdinalIgnoreCase) && 
+                 !url.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) && 
+                 !url.EndsWith(".rar", StringComparison.OrdinalIgnoreCase) && 
+                 !url.EndsWith(".7z", StringComparison.OrdinalIgnoreCase))
+        {
+            // Tự động phân tích và chuyển đổi URL nếu chỉ copy link Github repository
             string cleanUrl = url.TrimEnd('/');
             string repoName = cleanUrl.Substring(cleanUrl.LastIndexOf('/') + 1);
             url = $"{cleanUrl}/releases/latest/download/{repoName}.rar";
