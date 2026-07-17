@@ -1,0 +1,68 @@
+[
+  {
+    "Name": "Treo Đệ Tử",
+    "Description": "Bộ công cụ tự động úp đệ tử sơ sinh chuyên nghiệp và tối ưu tài nguyên.",
+    "Url": "https://github.com/cloudvpsviet/AutoDeTuPro/releases/latest/download/AutoDeTuPro.rar",
+    "OutputFolderName": "AutoDeTu"
+  },
+  {
+    "Name": "Auto 4 In 1",
+    "Description": "Tích hợp 4 chức năng tự động hỗ trợ đắc lực cho nhân vật.",
+    "Url": "https://github.com/cloudvpsviet/Auto4IN1/releases/latest/download/Auto4IN1.rar",
+    "OutputFolderName": "Auto4in1"
+  },
+  {
+    "Name": "Set Kích Hoạt",
+    "Description": "Tự động săn và thiết lập set kích hoạt trang bị nhanh chóng.",
+    "Url": "https://github.com/cloudvpsviet/AutoSetKichHoat/releases/latest/download/AutoSetKichHoat.rar",
+    "OutputFolderName": "AutoSetKichHoat"
+  },
+  {
+    "Name": "Đánh Quái",
+    "Description": "Tự động đánh quái, luyện cấp và nhặt vật phẩm thông minh.",
+    "Url": "https://github.com/cloudvpsviet/AutoTrainQuai/releases/latest/download/AutoTrainQuai.rar",
+    "OutputFolderName": "AutoDanhQuai"
+  },
+  {
+    "Name": "Nhiệm Vụ Hằng Ngày",
+    "Description": "Tự động thực hiện toàn bộ chuỗi nhiệm vụ hàng ngày.",
+    "Url": "https://github.com/cloudvpsviet/AutoNhiemVuHangNgay/releases/latest/download/AutoNhiemVuHangNgay.rar",
+    "OutputFolderName": "AutoNhiemVuHangNgay"
+  },
+  {
+    "Name": "CT Yardrat",
+    "Description": "Tự động úp Yardrat và dịch chuyển hỗ trợ săn boss.",
+    "Url": "https://github.com/cloudvpsviet/AutoYardrat/releases/latest/download/AutoYardrat.rar",
+    "OutputFolderName": "AutoYardrat"
+  },
+  {
+    "Name": "Sơ Sinh",
+    "Description": "Tự động làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
+    "Url": "https://github.com/cloudvpsviet/AutoSoSinh/releases/latest/download/AutoSoSinh.rar",
+    "OutputFolderName": "AutoSoSinh"
+  },
+  {
+    "Name": "Nhiệm Vụ Bang",
+    "Description": "Tự động thực hiện các nhiệm vụ bang hội nhanh chóng.",
+    "Url": "https://github.com/cloudvpsviet/AutoNhiemVuBang/releases/latest/download/AutoNhiemVuBang.rar",
+    "OutputFolderName": "AutoNhiemVuBang"
+  },
+  {
+    "Name": "Nhiệm Vụ Bò Mộng",
+    "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
+    "Url": "https://github.com/cloudvpsviet/AutoNhiemVuBoMong/releases/latest/download/AutoNhiemVuBoMong.rar",
+    "OutputFolderName": "AutoNhiemVuBoMong"
+  },
+  {
+    "Name": "Săn Boss Pro",
+    "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
+    "Url": "https://github.com/cloudvpsviet/AutoNhiemVuBoMong/releases/latest/download/AutoNhiemVuBoMong.rar",
+    "OutputFolderName": "AutoSanBossPro"
+  },
+  {
+    "Name": "Capsul Kì Bí (Items)",
+    "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
+    "Url": "https://github.com/cloudvpsviet/AutoNhiemVuBoMong/releases/latest/download/AutoNhiemVuBoMong.rar",
+    "OutputFolderName": "AutoCapsulKiBi"
+  }
+]

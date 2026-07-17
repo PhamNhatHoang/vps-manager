@@ -17,7 +17,7 @@ namespace VPSManager.ViewModels;
 
 public partial class ToolsTabViewModel : ViewModelBase
 {
-    private const string RemoteToolsJsonUrl = "https://raw.githubusercontent.com/cloudvpsviet/VPSManager/refs/heads/main/tools.json";
+    private const string RemoteToolsJsonUrl = "https://raw.githubusercontent.com/PhamNhatHoang/vps-manager/refs/heads/main/tools.json";
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsListVisible))]
