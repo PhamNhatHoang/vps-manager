@@ -117,14 +117,11 @@ public class ToolDownloadService
                     using var archive = ArchiveFactory.Open(tempFilePath);
                     foreach (var entry in archive.Entries)
                     {
-                        if (!entry.IsDirectory)
+                        entry.WriteToDirectory(outputDirectoryPath, new ExtractionOptions
                         {
-                            entry.WriteToDirectory(outputDirectoryPath, new ExtractionOptions
-                            {
-                                ExtractFullPath = true,
-                                Overwrite = true
-                            });
-                        }
+                            ExtractFullPath = true,
+                            Overwrite = true
+                        });
                     }
                 }
             }, cancellationToken);
