@@ -6,10 +6,10 @@
     "OutputFolderName": "AutoTreoDeTu"
   },
   {
-    "Name": "4 In 1",
-    "Description": "Tự động đánh quái MVBT > MHBT > KILIS hoặc GLT",
-    "FileName": "Auto4IN1.rar",
-    "OutputFolderName": "Auto4IN1"
+    "Name": "3 In 1",
+    "Description": "Tự động đánh quái MVBT > MHBT > KILIS",
+    "FileName": "Auto3In1.rar",
+    "OutputFolderName": "Auto3In1"
   },
   {
     "Name": "Set Kích Hoạt",
