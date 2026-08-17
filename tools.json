@@ -1,62 +1,62 @@
 [
   {
     "Name": "Treo Đệ Tử",
-    "Description": "Tự động treo đệ tử, Buff hồi sinh, Buff đậu thần",
-    "FileName": "AutoTreoDeTu.rar",
-    "OutputFolderName": "AutoTreoDeTu"
+    "Description": "[LITE] Tự động treo đệ tử, Buff hồi sinh, Buff đậu thần",
+    "FileName": "AutoTreoDe.rar",
+    "OutputFolderName": "AutoTreoDe"
   },
   {
-    "Name": "4 In 1",
-    "Description": "Tự động đánh quái MVBT > MHBT > KILIS hoặc GLT",
-    "FileName": "Auto4IN1.rar",
-    "OutputFolderName": "Auto4IN1"
+    "Name": "Special 1",
+    "Description": "[LITE] Tự động đánh quái MVBT > MHBT > KILIS hoặc GTL",
+    "FileName": "AutoSpecial1.rar",
+    "OutputFolderName": "AutoSpecial1"
   },
   {
     "Name": "Set Kích Hoạt",
-    "Description": "Tự động đánh quái treo set kích hoạt, mua/bán/vứt, . . .",
+    "Description": "[LITE] Tự động đánh quái treo set kích hoạt, mua/bán/vứt, . . .",
     "FileName": "AutoSetKichHoat.rar",
     "OutputFolderName": "AutoSetKichHoat"
   },
   {
     "Name": "Đánh Quái",
-    "Description": "Tự động đánh quái, luyện cấp và nhặt vật phẩm thông minh.",
+    "Description": "[LITE] Tự động đánh quái, luyện cấp và nhặt vật phẩm thông minh.",
     "FileName": "AutoDanhQuai.rar",
     "OutputFolderName": "AutoDanhQuai"
   },
   {
     "Name": "Nhiệm Vụ Hằng Ngày",
-    "Description": "Tự động thực hiện những nhiệm vụ hằng ngày",
+    "Description": "[LITE] Tự động thực hiện những nhiệm vụ hằng ngày",
     "FileName": "AutoNhiemVuHangNgay.rar",
     "OutputFolderName": "AutoNhiemVuHangNgay"
   },
   {
+    "Name": "Treo CSKB",
+    "Description": "[LITE] Tự động đánh quái nhặt CSKB, giao dịch qua clone khi đủ, . . .",
+    "FileName": "AutoCSKB.rar",
+    "OutputFolderName": "AutoCSKB"
+  },
+  {
     "Name": "CT Yardrat",
-    "Description": "Tự động úp Yardrat, ôm quái, . . .",
+    "Description": "[JAVA] Tự động úp Yardrat, ôm quái, . . .",
     "FileName": "AutoYardrat.rar",
     "OutputFolderName": "AutoYardrat"
   },
   {
     "Name": "Sơ Sinh",
-    "Description": "Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
+    "Description": "[JAVA] Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
     "FileName": "AutoSoSinh.rar",
     "OutputFolderName": "AutoSoSinh"
   },
   {
     "Name": "Nhiệm Vụ Bang",
-    "Description": "Tự động thực hiện các nhiệm vụ bang hội, đến ĐHVT.",
+    "Description": "[JAVA] Tự động thực hiện các nhiệm vụ bang hội, đến ĐHVT.",
     "FileName": "AutoNhiemVuBang.rar",
     "OutputFolderName": "AutoNhiemVuBang"
   },
   {
     "Name": "Nhiệm Vụ Bò Mộng",
-    "Description": "Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
+    "Description": "[JAVA] Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
     "FileName": "AutoNhiemVuBoMong.rar",
     "OutputFolderName": "AutoNhiemVuBoMong"
-  },
-  {
-    "Name": "Treo CSKB",
-    "Description": "Tự động đánh quái nhặt CSKB, giao dịch qua clone khi đủ, . . .",
-    "FileName": "AutoCSKB.rar",
-    "OutputFolderName": "AutoCSKB"
   }
 ]
