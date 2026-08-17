@@ -10,7 +10,7 @@
         x:Class="VPSManager.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/app-logo.ico"
-        Title="VPS Manager [cloudvpsviet.com]"
+        Title="VPS Manager"
         WindowStartupLocation="CenterScreen"
         Background="#F2F3F5"
         x:CompileBindings="True">
@@ -23,20 +23,25 @@
   <Grid>
     
     <!-- KHU VỰC TAB CONTROL CHÍNH CHIẾM TOÀN BỘ DIỆN TÍCH -->
-    <TabControl Margin="4,6,4,4" Padding="0" Background="Transparent">
+    <TabControl Margin="2,4,2,4" Padding="0" Background="Transparent">
       
-      <!-- TAB 1: CLOUD VPS -->
-      <TabItem Header="Cloud VPS" FontSize="12" FontWeight="SemiBold" Height="34">
+      <!-- TAB 1: VPS -->
+      <TabItem Header="VPS" FontSize="11" FontWeight="SemiBold" Height="32">
         <tabs:VpsTabView DataContext="{Binding VpsTab}"/>
       </TabItem>
 
       <!-- TAB 2: DOWNLOAD TOOLS -->
-      <TabItem Header="Download Tools" FontSize="12" FontWeight="SemiBold" Height="34">
+      <TabItem Header="Download Tools" FontSize="11" FontWeight="SemiBold" Height="32">
         <tabs:ToolsTabView DataContext="{Binding ToolsTab}"/>
       </TabItem>
 
-      <!-- TAB 3: HISTORY -->
-      <TabItem Header="History" FontSize="12" FontWeight="SemiBold" Height="34">
+      <!-- TAB 3: SECURITY -->
+      <TabItem Header="Security" FontSize="11" FontWeight="SemiBold" Height="32">
+        <tabs:SecurityTabView DataContext="{Binding SecurityTab}"/>
+      </TabItem>
+
+      <!-- TAB 4: HISTORY -->
+      <TabItem Header="History" FontSize="11" FontWeight="SemiBold" Height="32">
         <tabs:LoginLogsTabView DataContext="{Binding LoginLogsTab}"/>
       </TabItem>
       

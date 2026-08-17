@@ -122,8 +122,8 @@ public partial class UserAccountService
             int result = NetUserSetInfo(null, oldName, 0, buf, out _);
             if (result != 0)
             {
-                error = $"Lỗi hệ thống Windows API (Mã lỗi: {result}).";
-                Logger.Error($"Lỗi khi cố gắng đổi username '{oldName}' thành '{newName}'. Code: {result}");
+                error = GetNetUserErrorMessage(result);
+                Logger.Error($"Lỗi khi cố gắng đổi username '{oldName}' thành '{newName}'. Code: {result} ({error})");
                 return false;
             }
 
@@ -171,8 +171,8 @@ public partial class UserAccountService
             int result = NetUserSetInfo(null, username, 1003, buf, out _);
             if (result != 0)
             {
-                error = $"Lỗi hệ thống Windows API (Mã lỗi: {result}).";
-                Logger.Error($"Lỗi khi đổi mật khẩu của tài khoản '{username}'. Code: {result}");
+                error = GetNetUserErrorMessage(result);
+                Logger.Error($"Lỗi khi đổi mật khẩu của tài khoản '{username}'. Code: {result} ({error})");
                 return false;
             }
 
@@ -190,5 +190,20 @@ public partial class UserAccountService
             if (passwordPtr != IntPtr.Zero) Marshal.FreeHGlobal(passwordPtr);
             if (buf != IntPtr.Zero) Marshal.FreeHGlobal(buf);
         }
+    }
+
+    private static string GetNetUserErrorMessage(int errorCode)
+    {
+        return errorCode switch
+        {
+            5 => "Từ chối truy cập (Access Denied). Vui lòng chạy ứng dụng bằng quyền Administrator.",
+            87 => "Tham số không hợp lệ (Invalid Parameter).",
+            1325 => "Mật khẩu mới vi phạm chính sách bảo mật mật khẩu của Windows (độ dài tối thiểu, độ phức tạp hoặc lịch sử đặt lại).",
+            2221 => "Không tìm thấy tên tài khoản người dùng này trên hệ thống.",
+            2224 => "Tên tài khoản này đã tồn tại trên máy tính.",
+            2226 => "Mật khẩu quá ngắn so với quy định bảo mật của Windows.",
+            2245 => "Mật khẩu không đáp ứng chính sách bảo mật mật khẩu của Windows (Windows Password Policy) về độ dài, độ phức tạp hoặc không được trùng các mật khẩu cũ gần đây.",
+            _ => $"Lỗi hệ thống Windows API (Mã lỗi: {errorCode})"
+        };
     }
 }

@@ -67,8 +67,8 @@ public partial class VpsTabViewModel : ViewModelBase, IDisposable
 
     public VpsTabViewModel()
     {
-        // 1. Polling tài nguyên hệ thống mỗi 2 giây
-        _resourceTimer = new Timer(PollSystemResources, null, 0, 2000);
+        // 1. Polling tài nguyên hệ thống mỗi 1 giây (khớp nhịp với Task Manager)
+        _resourceTimer = new Timer(PollSystemResources, null, 0, 1000);
 
         // 2. Timer cập nhật text countdown cho Clear RAM mỗi giây để đếm giây chính xác hơn cho 30s
         _clearRamStatusTimer = new Timer(UpdateClearRamCountdown, null, 1000, 1000);
@@ -174,19 +174,28 @@ public partial class VpsTabViewModel : ViewModelBase, IDisposable
     [RelayCommand]
     private async Task ChangeRdpPortAsync()
     {
+        if (string.IsNullOrWhiteSpace(NewRdpPortText))
+        {
+            AppendLog("[LỖI] Chưa nhập cổng RDP mới.");
+            await ShowMessageDialogAsync("Thiếu Thông Tin", "Vui lòng nhập cổng kết nối RDP mới (từ 1025 đến 65535).");
+            return;
+        }
+
         if (!int.TryParse(NewRdpPortText, out int port))
         {
             AppendLog("[LỖI] Đổi Port RDP thất bại: Cổng RDP nhập vào không phải là số hợp lệ.");
+            await ShowMessageDialogAsync("Cổng RDP Không Hợp Lệ", "Cổng RDP nhập vào phải là số nguyên từ 1025 đến 65535.");
             return;
         }
 
         if (!SafePath.IsValidPort(port, out string valError))
         {
             AppendLog($"[LỖI] Đổi Port RDP thất bại: {valError}");
+            await ShowMessageDialogAsync("Cổng RDP Không Hợp Lệ", valError);
             return;
         }
 
-        bool? confirm = await ShowConfirmDialogAsync("Đổi Cổng RDP", $"Bạn có chắc chắn muốn đổi cổng kết nối RDP sang {port}?\nLưu ý: Bạn cần tạo rule Firewall hoặc restart VPS/Service RDP sau đó.");
+        bool? confirm = await ShowConfirmDialogAsync("Đổi Cổng RDP", $"Bạn có chắc chắn muốn đổi cổng kết nối RDP sang {port}?\nLưu ý: Ứng dụng sẽ tự động khởi động lại VPS ngay sau đó để áp dụng cổng mới.");
         if (confirm != true) return;
 
         bool success = RdpService.Instance.SetRdpPort(port, out string error);
@@ -205,6 +214,7 @@ public partial class VpsTabViewModel : ViewModelBase, IDisposable
         else
         {
             AppendLog($"[LỖI] Đổi cổng RDP thất bại: {error}");
+            await ShowMessageDialogAsync("Đổi Port RDP Thất Bại", $"Đổi cổng RDP sang {port} thất bại!\nChi tiết lỗi: {error}");
         }
     }
 
@@ -215,40 +225,58 @@ public partial class VpsTabViewModel : ViewModelBase, IDisposable
         if (string.IsNullOrWhiteSpace(SelectedRenameUsername))
         {
             AppendLog("[LỖI] Chưa chọn tài khoản cần đổi.");
+            await ShowMessageDialogAsync("Chưa Chọn Tài Khoản", "Vui lòng chọn tài khoản người dùng cần đổi tên.");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(NewUsername))
         {
             AppendLog("[LỖI] Tên đăng nhập mới không được để trống.");
+            await ShowMessageDialogAsync("Thiếu Thông Tin", "Vui lòng nhập tên đăng nhập mới.");
             return;
         }
 
         string oldUser = SelectedRenameUsername;
-        bool? confirm = await ShowConfirmDialogAsync("Đổi Tên Tài Khoản", $"Bạn có chắc chắn muốn đổi tên tài khoản local '{oldUser}' thành '{NewUsername}'?");
+        string targetUser = NewUsername.Trim();
+
+        if (string.Equals(oldUser, targetUser, StringComparison.OrdinalIgnoreCase))
+        {
+            AppendLog("[LỖI] Tên đăng nhập mới trùng với tên hiện tại.");
+            await ShowMessageDialogAsync("Tên Không Hợp Lệ", "Tên đăng nhập mới trùng với tên tài khoản hiện tại.");
+            return;
+        }
+
+        if (!SafePath.IsValidUsername(targetUser, out string valError))
+        {
+            AppendLog($"[LỖI] Đổi tên tài khoản thất bại: {valError}");
+            await ShowMessageDialogAsync("Tên Không Đạt Yêu Cầu", valError);
+            return;
+        }
+
+        bool? confirm = await ShowConfirmDialogAsync("Đổi Tên Tài Khoản", $"Bạn có chắc chắn muốn đổi tên tài khoản '{oldUser}' thành '{targetUser}'?");
         if (confirm != true) return;
 
-        bool success = UserAccountService.Instance.ChangeUsername(oldUser, NewUsername, out string error);
+        bool success = UserAccountService.Instance.ChangeUsername(oldUser, targetUser, out string error);
         if (success)
         {
-            string addedName = NewUsername;
             NewUsername = string.Empty;
             
             // Làm mới danh sách user
             RefreshUsernames();
-            if (Usernames.Contains(addedName))
+            if (Usernames.Contains(targetUser))
             {
-                SelectedRenameUsername = addedName;
+                SelectedRenameUsername = targetUser;
             }
             
-            AppendLog($"[THÀNH CÔNG] Đã đổi tên tài khoản từ '{oldUser}' sang '{addedName}'. Hãy dùng tên mới cho lần login tiếp theo.");
+            AppendLog($"[THÀNH CÔNG] Đã đổi tên tài khoản từ '{oldUser}' sang '{targetUser}'. Hãy dùng tên mới cho lần login tiếp theo.");
 
             // Hiển thị thông báo thành công
-            await ShowMessageDialogAsync("Đổi Tên Thành Công", $"Đổi tên tài khoản từ '{oldUser}' sang '{addedName}' thành công!\nVui lòng sử dụng tên đăng nhập mới cho lần kết nối tiếp theo.");
+            await ShowMessageDialogAsync("Đổi Tên Thành Công", $"Đổi tên tài khoản từ '{oldUser}' sang '{targetUser}' thành công!\nVui lòng sử dụng tên đăng nhập mới cho lần kết nối tiếp theo.");
         }
         else
         {
             AppendLog($"[LỖI] Đổi tên tài khoản thất bại: {error}");
+            await ShowMessageDialogAsync("Đổi Tên Thất Bại", $"Đổi tên tài khoản thất bại!\nChi tiết lỗi: {error}");
         }
     }
 
@@ -259,19 +287,31 @@ public partial class VpsTabViewModel : ViewModelBase, IDisposable
         if (string.IsNullOrWhiteSpace(SelectedPasswordUsername))
         {
             AppendLog("[LỖI] Chưa chọn tài khoản cần đổi mật khẩu.");
+            await ShowMessageDialogAsync("Chưa Chọn Tài Khoản", "Vui lòng chọn tài khoản cần đổi mật khẩu.");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(NewPassword))
         {
             AppendLog("[LỖI] Mật khẩu mới không được để trống.");
+            await ShowMessageDialogAsync("Thiếu Thông Tin", "Vui lòng nhập mật khẩu mới.");
             return;
         }
 
-        bool? confirm = await ShowConfirmDialogAsync("Đổi Mật Khẩu", $"Bạn có chắc chắn muốn đổi mật khẩu cho tài khoản '{SelectedPasswordUsername}'?");
+        string user = SelectedPasswordUsername;
+        string pass = NewPassword;
+
+        if (!SafePath.IsValidPassword(pass, user, out string valError))
+        {
+            AppendLog($"[LỖI] Đổi mật khẩu thất bại: {valError}");
+            await ShowMessageDialogAsync("Mật Khẩu Không Đạt Yêu Cầu", valError);
+            return;
+        }
+
+        bool? confirm = await ShowConfirmDialogAsync("Đổi Mật Khẩu", $"Bạn có chắc chắn muốn đổi mật khẩu cho tài khoản '{user}'?");
         if (confirm != true) return;
 
-        bool success = UserAccountService.Instance.ChangePassword(SelectedPasswordUsername, NewPassword, out string error);
+        bool success = UserAccountService.Instance.ChangePassword(user, pass, out string error);
         if (success)
         {
             // In file changepass.txt ra desktop
@@ -279,19 +319,19 @@ public partial class VpsTabViewModel : ViewModelBase, IDisposable
             {
                 string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string filePath = System.IO.Path.Combine(desktopPath, "changepass.txt");
-                string content = $"- Username: {SelectedPasswordUsername}\r\n- Password: {NewPassword}\r\n- Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
+                string content = $"- Username: {user}\r\n- Password: {pass}\r\n- Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
                 System.IO.File.WriteAllText(filePath, content);
                 
-                AppendLog($"[THÀNH CÔNG] Đã thay đổi mật khẩu cho tài khoản '{SelectedPasswordUsername}' thành công.");
+                AppendLog($"[THÀNH CÔNG] Đã thay đổi mật khẩu cho tài khoản '{user}' thành công.");
                 AppendLog($"[THÀNH CÔNG] Đã ghi thông tin mật khẩu mới vào file: {filePath}");
 
                 // Hiển thị thông báo thành công
-                await ShowMessageDialogAsync("Đổi Mật Khẩu Thành Công", $"Đổi mật khẩu tài khoản '{SelectedPasswordUsername}' thành công!\nThông tin mật khẩu mới đã được lưu tại file: {filePath}");
+                await ShowMessageDialogAsync("Đổi Mật Khẩu Thành Công", $"Đổi mật khẩu tài khoản '{user}' thành công!\nThông tin mật khẩu mới đã được lưu tại file: {filePath}");
             }
             catch (Exception ex)
             {
                 AppendLog($"[THÀNH CÔNG] Đã thay đổi mật khẩu thành công (Nhưng lỗi ghi file desktop: {ex.Message}).");
-                await ShowMessageDialogAsync("Đổi Mật Khẩu Thành Công", $"Đổi mật khẩu tài khoản '{SelectedPasswordUsername}' thành công!\n(Lưu ý: Có lỗi xảy ra khi ghi file thông tin ra Desktop: {ex.Message})");
+                await ShowMessageDialogAsync("Đổi Mật Khẩu Thành Công", $"Đổi mật khẩu tài khoản '{user}' thành công!\n(Lưu ý: Có lỗi xảy ra khi ghi file thông tin ra Desktop: {ex.Message})");
             }
             
             NewPassword = string.Empty;
@@ -299,6 +339,7 @@ public partial class VpsTabViewModel : ViewModelBase, IDisposable
         else
         {
             AppendLog($"[LỖI] Đổi mật khẩu thất bại: {error}");
+            await ShowMessageDialogAsync("Đổi Mật Khẩu Thất Bại", $"Đổi mật khẩu cho tài khoản '{user}' thất bại!\nChi tiết lỗi: {error}");
         }
     }
 

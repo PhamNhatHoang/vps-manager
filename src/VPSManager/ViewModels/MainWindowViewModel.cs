@@ -13,6 +13,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public string AdminStatusColor => IsAdmin ? "#28A745" : "#DC3545";
 
     public VpsTabViewModel VpsTab { get; }
+    public SecurityTabViewModel SecurityTab { get; }
     public LoginLogsTabViewModel LoginLogsTab { get; }
     public ToolsTabViewModel ToolsTab { get; }
 
@@ -20,6 +21,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         IsAdmin = AdminService.Instance.IsRunningAsAdmin();
         VpsTab = new VpsTabViewModel();
+        SecurityTab = new SecurityTabViewModel();
         LoginLogsTab = new LoginLogsTabViewModel();
         ToolsTab = new ToolsTabViewModel();
     }

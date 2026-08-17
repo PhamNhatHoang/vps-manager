@@ -24,6 +24,10 @@
         <StackPanel Spacing="8" HorizontalAlignment="Center">
           <TextBlock Text="⚠️ Lỗi kết nối" FontWeight="Bold" Foreground="#DC2626" FontSize="12" HorizontalAlignment="Center"/>
           <TextBlock Text="{Binding ErrorMessage}" Foreground="#DC2626" FontSize="11" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" LineHeight="15"/>
+          <Button Content="Thử lại" Command="{Binding ReloadToolsCommand}"
+                  Background="#FFFFFF" Foreground="#DC2626" BorderBrush="#FCA5A5" BorderThickness="1"
+                  FontSize="11" Height="26" Padding="14,0" HorizontalAlignment="Center"
+                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </StackPanel>
       </Border>
  

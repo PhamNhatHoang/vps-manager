@@ -52,41 +52,66 @@ public partial class SystemInfoService
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool GlobalMemoryStatusEx(ref MEMORYSTATUSEX lpBuffer);
 
+    private readonly object _syncLock = new();
     private FILETIME _prevIdleTime;
     private FILETIME _prevKernelTime;
     private FILETIME _prevUserTime;
     private bool _hasPrevTimes;
+    private double _lastCpuUsage;
 
     private SystemInfoService()
     {
         // Khởi tạo các giá trị thời gian ban đầu
-        GetSystemTimes(out _prevIdleTime, out _prevKernelTime, out _prevUserTime);
-        _hasPrevTimes = true;
+        lock (_syncLock)
+        {
+            if (GetSystemTimes(out _prevIdleTime, out _prevKernelTime, out _prevUserTime))
+            {
+                _hasPrevTimes = true;
+            }
+        }
     }
 
     public VpsInfo GetCurrentVpsInfo()
     {
-        double cpuUsage = 0;
-        if (GetSystemTimes(out var idleTime, out var kernelTime, out var userTime))
+        double cpuUsage = _lastCpuUsage;
+        lock (_syncLock)
         {
-            if (_hasPrevTimes)
+            if (GetSystemTimes(out var idleTime, out var kernelTime, out var userTime))
             {
-                ulong idleTicks = idleTime.ToUlong() - _prevIdleTime.ToUlong();
-                ulong kernelTicks = kernelTime.ToUlong() - _prevKernelTime.ToUlong();
-                ulong userTicks = userTime.ToUlong() - _prevUserTime.ToUlong();
-                ulong totalTicks = kernelTicks + userTicks;
-
-                if (totalTicks > 0)
+                if (_hasPrevTimes)
                 {
-                    ulong activeTicks = totalTicks - idleTicks;
-                    cpuUsage = Math.Clamp((double)activeTicks * 100.0 / totalTicks, 0.0, 100.0);
-                }
-            }
+                    ulong prevIdle = _prevIdleTime.ToUlong();
+                    ulong prevKernel = _prevKernelTime.ToUlong();
+                    ulong prevUser = _prevUserTime.ToUlong();
 
-            _prevIdleTime = idleTime;
-            _prevKernelTime = kernelTime;
-            _prevUserTime = userTime;
-            _hasPrevTimes = true;
+                    ulong currIdle = idleTime.ToUlong();
+                    ulong currKernel = kernelTime.ToUlong();
+                    ulong currUser = userTime.ToUlong();
+
+                    if (currKernel >= prevKernel && currUser >= prevUser && currIdle >= prevIdle)
+                    {
+                        ulong kernelDelta = currKernel - prevKernel;
+                        ulong userDelta = currUser - prevUser;
+                        ulong idleDelta = currIdle - prevIdle;
+                        ulong totalDelta = kernelDelta + userDelta;
+
+                        if (totalDelta > 0)
+                        {
+                            if (idleDelta <= totalDelta)
+                            {
+                                ulong activeDelta = totalDelta - idleDelta;
+                                cpuUsage = Math.Clamp((double)activeDelta * 100.0 / totalDelta, 0.0, 100.0);
+                                _lastCpuUsage = cpuUsage;
+                            }
+                        }
+                    }
+                }
+
+                _prevIdleTime = idleTime;
+                _prevKernelTime = kernelTime;
+                _prevUserTime = userTime;
+                _hasPrevTimes = true;
+            }
         }
 
         // Lấy thông tin RAM

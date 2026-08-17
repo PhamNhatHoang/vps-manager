@@ -17,7 +17,8 @@ namespace VPSManager.ViewModels;
 
 public partial class ToolsTabViewModel : ViewModelBase
 {
-    private const string RemoteToolsJsonUrl = "https://raw.githubusercontent.com/PhamNhatHoang/vps-manager/refs/heads/main/tools.json";
+    private const string PrimaryCdnToolsJsonUrl = "https://cdn.jsdelivr.net/gh/PhamNhatHoang/vps-manager@main/tools.json";
+    private const string FallbackCdnToolsJsonUrl = "https://raw.githubusercontent.com/PhamNhatHoang/vps-manager/refs/heads/main/tools.json";
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsListVisible))]
@@ -39,6 +40,12 @@ public partial class ToolsTabViewModel : ViewModelBase
         _ = LoadRemoteToolsAsync();
     }
 
+    [RelayCommand]
+    public async Task ReloadToolsAsync()
+    {
+        await LoadRemoteToolsAsync();
+    }
+
     private async Task LoadRemoteToolsAsync()
     {
         Dispatcher.UIThread.Post(() =>
@@ -49,38 +56,113 @@ public partial class ToolsTabViewModel : ViewModelBase
             Tools.Clear();
         });
 
+        List<ToolDownloadItem>? items = null;
+        string? lastErrorMessage = null;
+
+        // 1. Thử tải từ CDN chính jsDelivr (nhanh, toàn cầu, không bị giới hạn Rate Limit)
         try
         {
-            using var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
+            using var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
             httpClient.DefaultRequestHeaders.Add("User-Agent", "VPSManager-App");
 
-            // Sử dụng cache buster để tránh GitHub CDN cache file cũ
-            string urlWithNoCache = $"{RemoteToolsJsonUrl}?t={DateTime.UtcNow.Ticks}";
-            string json = await httpClient.GetStringAsync(urlWithNoCache);
-            var items = JsonSerializer.Deserialize(json, AppJsonSerializerContext.Default.ListToolDownloadItem);
+            string json = await httpClient.GetStringAsync(PrimaryCdnToolsJsonUrl);
+            items = JsonSerializer.Deserialize(json, AppJsonSerializerContext.Default.ListToolDownloadItem);
 
-            Dispatcher.UIThread.Post(() =>
+            if (items != null && items.Count > 0)
             {
-                if (items != null)
-                {
-                    foreach (var item in items)
-                    {
-                        Tools.Add(item);
-                    }
-                }
-                IsLoading = false;
-            });
+                _ = SaveToolsCacheAsync(json);
+            }
         }
         catch (Exception ex)
         {
-            Logger.Error("Không thể tải danh sách Tools từ GitHub", ex);
-            Dispatcher.UIThread.Post(() =>
+            Logger.Warn($"Không thể tải tools từ CDN jsDelivr: {ex.Message}");
+            lastErrorMessage = ex.Message;
+        }
+
+        // 2. Nếu CDN chính không lấy được, fallback sang GitHub Raw trực tiếp (không dùng query ?t= để tránh bị 429)
+        if (items == null || items.Count == 0)
+        {
+            try
+            {
+                using var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+                httpClient.DefaultRequestHeaders.Add("User-Agent", "VPSManager-App");
+
+                string json = await httpClient.GetStringAsync(FallbackCdnToolsJsonUrl);
+                items = JsonSerializer.Deserialize(json, AppJsonSerializerContext.Default.ListToolDownloadItem);
+
+                if (items != null && items.Count > 0)
+                {
+                    _ = SaveToolsCacheAsync(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn($"Không thể tải tools từ GitHub Raw fallback: {ex.Message}");
+                lastErrorMessage = ex.Message;
+            }
+        }
+
+        // 3. Nếu mạng hoàn toàn lỗi / offline / rate limit, đọc từ file tools.json local trong thư mục ứng dụng
+        if (items == null || items.Count == 0)
+        {
+            items = await LoadLocalToolsFallbackAsync();
+        }
+
+        // 4. Cập nhật UI
+        Dispatcher.UIThread.Post(() =>
+        {
+            if (items != null && items.Count > 0)
+            {
+                foreach (var item in items)
+                {
+                    Tools.Add(item);
+                }
+                IsLoading = false;
+                HasError = false;
+            }
+            else
             {
                 IsLoading = false;
                 HasError = true;
-                ErrorMessage = $"Không thể tải danh sách công cụ.\nChi tiết lỗi: {ex.Message}";
-            });
+                ErrorMessage = $"Không thể tải danh sách công cụ.\nChi tiết lỗi: {lastErrorMessage ?? "Không tìm thấy dữ liệu công cụ"}";
+            }
+        });
+    }
+
+    private static async Task SaveToolsCacheAsync(string json)
+    {
+        try
+        {
+            string localPath = Path.Combine(AppContext.BaseDirectory, "tools.json");
+            await File.WriteAllTextAsync(localPath, json);
         }
+        catch (Exception ex)
+        {
+            Logger.Warn($"Không thể lưu cache tools.json: {ex.Message}");
+        }
+    }
+
+    private static async Task<List<ToolDownloadItem>?> LoadLocalToolsFallbackAsync()
+    {
+        try
+        {
+            string localPath = Path.Combine(AppContext.BaseDirectory, "tools.json");
+            if (File.Exists(localPath))
+            {
+                string json = await File.ReadAllTextAsync(localPath);
+                var items = JsonSerializer.Deserialize(json, AppJsonSerializerContext.Default.ListToolDownloadItem);
+                if (items != null && items.Count > 0)
+                {
+                    Logger.Info("Đã nạp danh sách công cụ từ file local tools.json");
+                    return items;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"Không thể nạp tools.json từ local: {ex.Message}");
+        }
+        return null;
     }
 
     [RelayCommand]

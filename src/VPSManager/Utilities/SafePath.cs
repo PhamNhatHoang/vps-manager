@@ -36,13 +36,29 @@ public static class SafePath
             return false;
         }
 
-        // 1. Kiểm tra độ dài và định dạng bằng Regex:
-        // - Bắt đầu bằng chữ cái
-        // - Độ dài từ 3 đến 20 ký tự
-        // - Không khoảng trắng, không tiếng Việt có dấu, chỉ chứa chữ cái, số, gạch dưới và gạch ngang
-        if (!Regex.IsMatch(username, @"^[A-Za-z][A-Za-z0-9_-]{2,19}$"))
+        string trimmed = username.Trim();
+
+        if (trimmed.Length < 3 || trimmed.Length > 20)
         {
-            error = "Username phải từ 3-20 ký tự, bắt đầu bằng chữ cái, không dấu, không khoảng trắng, chỉ chứa chữ, số, '-' và '_'.";
+            error = $"Tên đăng nhập phải từ 3 đến 20 ký tự (hiện có {trimmed.Length} ký tự).";
+            return false;
+        }
+
+        if (!char.IsLetter(trimmed[0]))
+        {
+            error = "Tên đăng nhập phải bắt đầu bằng chữ cái (A-Z hoặc a-z).";
+            return false;
+        }
+
+        if (trimmed.Contains(' ') || trimmed.Any(c => c > 127))
+        {
+            error = "Tên đăng nhập không được chứa khoảng trắng hoặc chữ tiếng Việt có dấu.";
+            return false;
+        }
+
+        if (!Regex.IsMatch(trimmed, @"^[A-Za-z][A-Za-z0-9_-]{2,19}$"))
+        {
+            error = "Tên đăng nhập chỉ được chứa chữ cái, chữ số, dấu gạch ngang '-' hoặc gạch dưới '_'.";
             return false;
         }
 
@@ -59,9 +75,9 @@ public static class SafePath
 
         foreach (var blockedName in blockedSystemNames)
         {
-            if (string.Equals(username, blockedName, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(trimmed, blockedName, StringComparison.OrdinalIgnoreCase))
             {
-                error = $"Không được đặt tên trùng với tài khoản hệ thống '{blockedName}'.";
+                error = $"Không được đặt tên trùng với tài khoản hệ thống mặc định '{blockedName}'.";
                 return false;
             }
         }
@@ -139,22 +155,48 @@ public static class SafePath
         error = string.Empty;
         if (string.IsNullOrWhiteSpace(password))
         {
-            error = "Mật khẩu không được để trống.";
+            error = "Mật khẩu mới không được để trống.";
             return false;
         }
 
-        // 1. Kiểm tra độ dài từ 12 - 32 ký tự, phải có ít nhất 1 chữ thường, 1 chữ hoa, 1 số, 1 ký tự đặc biệt
-        // Sử dụng Regex khuyến nghị điều chỉnh độ dài thành 12-32:
-        if (!Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$*_\-+=.])[A-Za-z\d!@#$*_\-+=.]{12,32}$"))
+        if (password.Length < 8 || password.Length > 32)
         {
-            error = "Mật khẩu phải từ 12-32 ký tự, chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số, 1 ký tự đặc biệt (!@#$*_-+=.), không dấu, không khoảng trắng.";
+            error = $"Mật khẩu phải có độ dài từ 8 đến 32 ký tự (hiện tại có {password.Length} ký tự).";
             return false;
         }
 
-        // 2. Không chứa username (không phân biệt chữ hoa/thường)
+        if (password.Contains(' '))
+        {
+            error = "Mật khẩu không được chứa khoảng trắng.";
+            return false;
+        }
+
+        if (password.Any(c => c > 127))
+        {
+            error = "Mật khẩu không được chứa ký tự tiếng Việt có dấu hoặc ký tự Unicode.";
+            return false;
+        }
+
+        bool hasUpper = password.Any(char.IsUpper);
+        bool hasLower = password.Any(char.IsLower);
+        bool hasDigit = password.Any(char.IsDigit);
+        bool hasSpecial = password.Any(c => !char.IsLetterOrDigit(c) && !char.IsWhiteSpace(c));
+
+        var missing = new System.Collections.Generic.List<string>();
+        if (!hasUpper) missing.Add("1 chữ hoa (A-Z)");
+        if (!hasLower) missing.Add("1 chữ thường (a-z)");
+        if (!hasDigit) missing.Add("1 chữ số (0-9)");
+        if (!hasSpecial) missing.Add("1 ký tự đặc biệt (ví dụ: !@#$%^&*_-+=.)");
+
+        if (missing.Count > 0)
+        {
+            error = $"Mật khẩu chưa đủ độ phức tạp. Còn thiếu: {string.Join(", ", missing)}.";
+            return false;
+        }
+
         if (!string.IsNullOrEmpty(username) && password.Contains(username, StringComparison.OrdinalIgnoreCase))
         {
-            error = "Mật khẩu không được chứa tên đăng nhập (Username).";
+            error = $"Mật khẩu không được chứa tên tài khoản đăng nhập ('{username}').";
             return false;
         }
 

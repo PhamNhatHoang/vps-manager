@@ -12,11 +12,19 @@ public class AppSettings
     public long LastProcessedEventRecordId { get; set; }
     public long LastProcessedSuccessRecordId { get; set; }
     public long LastProcessedFailureRecordId { get; set; }
+
+    // Cấu hình Bảo Mật & Chống Scan
+    public bool AutoBlockIpEnabled { get; set; } = true;
+    public int MaxFailedAttemptsBeforeBlock { get; set; } = 10;
+    public bool WhitelistOnlyEnabled { get; set; }
+    public string WhitelistIps { get; set; } = string.Empty;
 }
 
 // Cấu hình source generator cho System.Text.Json giúp chạy mượt mà trên Native AOT
 [JsonSerializable(typeof(AppSettings))]
 [JsonSerializable(typeof(List<ToolDownloadItem>))]
+[JsonSerializable(typeof(List<BlockedIpItem>))]
+[JsonSerializable(typeof(List<string>))]
 [JsonSourceGenerationOptions(WriteIndented = true)]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
