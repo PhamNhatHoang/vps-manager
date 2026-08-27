@@ -36,16 +36,28 @@
     "OutputFolderName": "AutoCSKB"
   },
   {
-    "Name": "CT Yardrat",
-    "Description": "[JAVA] Tự động úp Yardrat, ôm quái, . . .",
-    "FileName": "AutoYardrat.rar",
-    "OutputFolderName": "AutoYardrat"
+    "Name": "Mở CSKB",
+    "Description": "[LITE] Tự động mở CSKB, thống kê . . .",
+    "FileName": "AutoOpenCSKB.rar",
+    "OutputFolderName": "AutoOpenCSKB"
+  },
+  {
+    "Name": "Săn Sói",
+    "Description": "[LITE] Tự động dò sói, ném xương, checkout khi đủ . . .",
+    "FileName": "AutoSanSoi.rar",
+    "OutputFolderName": "AutoSanSoi"
   },
   {
     "Name": "Sơ Sinh",
     "Description": "[JAVA] Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
     "FileName": "AutoSoSinh.rar",
     "OutputFolderName": "AutoSoSinh"
+  },
+  {
+    "Name": "CT Yardrat",
+    "Description": "[JAVA] Tự động úp Yardrat, ôm quái, . . .",
+    "FileName": "AutoYardrat.rar",
+    "OutputFolderName": "AutoYardrat"
   },
   {
     "Name": "Nhiệm Vụ Bang",
