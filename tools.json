@@ -1,6 +1,6 @@
 [
   {
-    "Name": "Treo Đệ Tử",
+    "Name": "Up Đệ Tử",
     "Description": "[LITE] Tự động treo đệ tử, Buff hồi sinh, Buff đậu thần",
     "FileName": "AutoTreoDe.rar",
     "OutputFolderName": "AutoTreoDe"
@@ -30,7 +30,7 @@
     "OutputFolderName": "AutoNhiemVuHangNgay"
   },
   {
-    "Name": "Treo CSKB",
+    "Name": "Up CSKB",
     "Description": "[LITE] Tự động đánh quái nhặt CSKB, giao dịch qua clone khi đủ, . . .",
     "FileName": "AutoCSKB.rar",
     "OutputFolderName": "AutoCSKB"
@@ -48,7 +48,7 @@
     "OutputFolderName": "AutoSanSoi"
   },
   {
-    "Name": "Sơ Sinh",
+    "Name": "Up Sơ Sinh",
     "Description": "[JAVA] Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
     "FileName": "AutoSoSinh.rar",
     "OutputFolderName": "AutoSoSinh"
