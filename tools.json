@@ -49,7 +49,7 @@
   },
   {
     "Name": "Up Sơ Sinh",
-    "Description": "[JAVA] Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
+    "Description": "[LITE] Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
     "FileName": "AutoSoSinh.rar",
     "OutputFolderName": "AutoSoSinh"
   },
