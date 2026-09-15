@@ -70,5 +70,11 @@
     "Description": "[JAVA] Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
     "FileName": "AutoNhiemVuBoMong.rar",
     "OutputFolderName": "AutoNhiemVuBoMong"
+  },
+  {
+    "Name": "Đánh Quái",
+    "Description": "Test",
+    "FileName": "NRO.Danh.Quai.rar",
+    "OutputFolderName": "[NRO] Đánh Quái"
   }
 ]
