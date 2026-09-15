@@ -2,73 +2,73 @@
   {
     "Name": "Up Đệ Tử",
     "Description": "[LITE] Tự động treo đệ tử, Buff hồi sinh, Buff đậu thần",
-    "FileName": "AutoTreoDe.rar",
-    "OutputFolderName": "AutoTreoDe"
+    "FileName": "UpDeTu.rar",
+    "OutputFolderName": "[NRO] Up Đệ Tử"
   },
   {
     "Name": "Special 1",
     "Description": "[LITE] Tự động đánh quái MVBT > MHBT > KILIS hoặc GTL",
-    "FileName": "AutoSpecial1.rar",
-    "OutputFolderName": "AutoSpecial1"
+    "FileName": "Special1.rar",
+    "OutputFolderName": "[NRO] Special 1"
   },
   {
     "Name": "Set Kích Hoạt",
     "Description": "[LITE] Tự động đánh quái treo set kích hoạt, mua/bán/vứt, . . .",
-    "FileName": "AutoSetKichHoat.rar",
-    "OutputFolderName": "AutoSetKichHoat"
+    "FileName": "UpSetKichHoat.rar",
+    "OutputFolderName": "[NRO] Set Kích Hoạt"
   },
   {
     "Name": "Đánh Quái",
     "Description": "[LITE] Tự động đánh quái, luyện cấp và nhặt vật phẩm thông minh.",
-    "FileName": "AutoDanhQuai.rar",
-    "OutputFolderName": "AutoDanhQuai"
+    "FileName": "DanhQuai.rar",
+    "OutputFolderName": "[NRO] Đánh Quái"
   },
   {
     "Name": "Nhiệm Vụ Hằng Ngày",
     "Description": "[LITE] Tự động thực hiện những nhiệm vụ hằng ngày",
-    "FileName": "AutoNhiemVuHangNgay.rar",
-    "OutputFolderName": "AutoNhiemVuHangNgay"
+    "FileName": "NhiemVuHangNgay.rar",
+    "OutputFolderName": "[NRO] Nhiệm Vụ Hằng Ngày"
   },
   {
     "Name": "Up CSKB",
     "Description": "[LITE] Tự động đánh quái nhặt CSKB, giao dịch qua clone khi đủ, . . .",
-    "FileName": "AutoCSKB.rar",
-    "OutputFolderName": "AutoCSKB"
+    "FileName": "UpCSKB.rar",
+    "OutputFolderName": "[NRO] Up CSKB"
   },
   {
     "Name": "Mở CSKB",
     "Description": "[LITE] Tự động mở CSKB, thống kê . . .",
-    "FileName": "AutoOpenCSKB.rar",
-    "OutputFolderName": "AutoOpenCSKB"
+    "FileName": "MoCSKB.rar",
+    "OutputFolderName": "[NRO] Mở CSKB"
   },
   {
     "Name": "Săn Sói",
     "Description": "[LITE] Tự động dò sói, ném xương, checkout khi đủ . . .",
-    "FileName": "AutoSanSoi.rar",
-    "OutputFolderName": "AutoSanSoi"
+    "FileName": "SanSoi.rar",
+    "OutputFolderName": "[NRO] Săn Sói"
   },
   {
-    "Name": "Up Sơ Sinh",
+    "Name": "Up Zin",
     "Description": "[LITE] Tự động tạo nhân vật, làm nhiệm vụ sơ sinh và nâng cấp chỉ số cơ bản.",
-    "FileName": "AutoSoSinh.rar",
-    "OutputFolderName": "AutoSoSinh"
+    "FileName": "UpZin.rar",
+    "OutputFolderName": "[NRO] Up Zin"
   },
   {
-    "Name": "CT Yardrat",
+    "Name": "Up Yardrat",
     "Description": "[JAVA] Tự động úp Yardrat, ôm quái, . . .",
-    "FileName": "AutoYardrat.rar",
-    "OutputFolderName": "AutoYardrat"
+    "FileName": "UpYardrat.rar",
+    "OutputFolderName": "[NRO] Up Yardrat"
   },
   {
     "Name": "Nhiệm Vụ Bang",
     "Description": "[JAVA] Tự động thực hiện các nhiệm vụ bang hội, đến ĐHVT.",
-    "FileName": "AutoNhiemVuBang.rar",
-    "OutputFolderName": "AutoNhiemVuBang"
+    "FileName": "NhiemVuBangHoi.rar",
+    "OutputFolderName": "[NRO] Nhiệm Vụ Bang Hội"
   },
   {
     "Name": "Nhiệm Vụ Bò Mộng",
     "Description": "[JAVA] Tự động thực hiện và hoàn thành các nhiệm vụ bò mộng.",
-    "FileName": "AutoNhiemVuBoMong.rar",
-    "OutputFolderName": "AutoNhiemVuBoMong"
+    "FileName": "NhiemVuBoMong.rar",
+    "OutputFolderName": "[NRO] Nhiệm Vụ Bò Mộng"
   }
 ]
