@@ -42,6 +42,12 @@
     "OutputFolderName": "[NRO] Auto Mo CSKB"
   },
   {
+    "Name": "GIẢM SỨC MẠNH",
+    "Description": "Giảm sức mạnh bằng Yardrat hoặc Namek hồi sinh . . .",
+    "FileName": "NRO.Auto.GSM.rar",
+    "OutputFolderName": "[NRO] Auto GSM"
+  },
+  {
     "Name": "SĂN SÓI",
     "Description": "Tự động dò sói, ném xương, checkout khi đủ . . .",
     "FileName": "NRO.Auto.SanSoi.rar",
